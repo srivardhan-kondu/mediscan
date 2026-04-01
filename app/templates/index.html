@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediScan | Disease Detection & Care Navigation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <main class="container">
+    <section class="hero fade-in">
+      <p class="eyebrow">Decision-Support Healthcare Tool</p>
+      <h1>MediScan</h1>
+      <p class="subtitle">Analyze symptoms or medical images, view model confidence, and quickly find nearby hospitals.</p>
+      <p class="warning">MediScan is not a substitute for professional diagnosis. Always consult a qualified doctor.</p>
+    </section>
+
+    <section class="grid reveal-up">
+      <article class="card">
+        <h2>Symptom Prediction</h2>
+        <p class="card-note">Enter symptoms in plain language.</p>
+        <form id="symptom-form">
+          <textarea id="symptoms" placeholder="Example: fever, sore throat, body pain, dry cough" required minlength="3"></textarea>
+          <button type="submit">Predict from Symptoms</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Image Prediction</h2>
+        <p class="card-note">Upload a medical image for CNN-based classification.</p>
+        <form id="image-form" enctype="multipart/form-data">
+          <input id="image" type="file" accept="image/*" required />
+          <button type="submit">Predict from Image</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="result-card reveal-up" id="result-panel">
+      <h2>Prediction Result</h2>
+      <div id="result-content">No prediction yet. Submit symptoms or an image.</div>
+    </section>
+
+    <section class="map-card reveal-up">
+      <div class="map-header">
+        <h2>Nearby Hospitals</h2>
+        <button id="locate">Find Near Me</button>
+      </div>
+      <div id="map"></div>
+      <p class="map-note">Map data from OpenStreetMap via Leaflet.</p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+  <footer class="site-footer">
+    <p><strong>Disclaimer:</strong> MediScan is a decision-support tool only and does not replace professional medical advice.
+    Always consult a qualified healthcare provider for accurate diagnosis and treatment.</p>
+  </footer>
+</body>
+</html>

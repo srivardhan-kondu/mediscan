@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+models/*.keras
+models/*.pkl
+models/*.joblib
+models/*.json
+data/raw/
+data/processed/
+*.h5
