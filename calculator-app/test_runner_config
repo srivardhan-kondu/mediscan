@@ -1,0 +1,4 @@
+# Ensure the test runner environment includes Python installation.
+# This configuration needs to handle setting up the Python environment where it may be missing.
+
+# Activate a python environment or make sure python is installed before running tests.
