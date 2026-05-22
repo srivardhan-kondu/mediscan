@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        :root {
+            --background-color: #f0f0f0;
+            --calculator-bg: #fff;
+            --display-bg: #222;
+            --button-bg: #e0e0e0;
+            --operator-bg: #f9a825;
+            --clear-bg: #f44336;
+            --text-color: #fff;
+            --button-text-color: #000;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .calculator {
+            background: var(--calculator-bg);
+            border-radius: 8px;
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+            padding: 20px;
+            max-width: 100%;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+        .display {
+            background: var(--display-bg);
+            color: var(--text-color);
+            font-size: 2em;
+            padding: 15px;
+            text-align: right;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        button {
+            padding: 20px;
+            font-size: 1.2em;
+            background-color: var(--button-bg);
+            color: var(--button-text-color);
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            filter: brightness(0.9);
+        }
+        .operator {
+            background-color: var(--operator-bg);
+            color: var(--text-color);
+        }
+        .clear {
+            background-color: var(--clear-bg);
+            color: var(--text-color);
+        }
+        @media (max-width: 400px) {
+            .calculator {
+                width: 100%;
+            }
+            button {
+                font-size: 1em;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="clear" data-value="C">C</button>
+            <button class="operator" data-value="/">/</button>
+            <button class="operator" data-value="*">*</button>
+            <button class="operator" data-value="-">-</button>
+            <button data-value="7">7</button>
+            <button data-value="8">8</button>
+            <button data-value="9">9</button>
+            <button class="operator" data-value="+">+</button>
+            <button data-value="4">4</button>
+            <button data-value="5">5</button>
+            <button data-value="6">6</button>
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button data-value="0">0</button>
+            <button data-value=".">.</button>
+            <button class="operator" data-value="=">=</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const display = document.getElementById('display');
+            let currentInput = '';
+            let operator = '';
+            let firstOperand = null;
+            let resultDisplayed = false;
+
+            const buttons = document.querySelectorAll('button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+
+                    if (value === 'C') {
+                        display.textContent = '0';
+                        currentInput = '';
+                        firstOperand = null;
+                        operator = '';
+                        resultDisplayed = false;
+                    } else if (value === '+' || value === '-' || value === '*' || value === '/') {
+                        if (!resultDisplayed && currentInput !== '') {
+                            firstOperand = parseFloat(currentInput);
+                        }
+                        operator = value;
+                        currentInput = '';
+                        resultDisplayed = false;
+                    } else if (value === '=') {
+                        if (firstOperand !== null && currentInput !== '') {
+                            const secondOperand = parseFloat(currentInput);
+                            let result;
+                            switch (operator) {
+                                case '+':
+                                    result = firstOperand + secondOperand;
+                                    break;
+                                case '-':
+                                    result = firstOperand - secondOperand;
+                                    break;
+                                case '*':
+                                    result = firstOperand * secondOperand;
+                                    break;
+                                case '/':
+                                    result = firstOperand / secondOperand;
+                                    break;
+                            }
+                            display.textContent = result;
+                            currentInput = result;
+                            firstOperand = null;
+                            operator = '';
+                            resultDisplayed = true;
+                        }
+                    } else {
+                        if (resultDisplayed) {
+                            currentInput = '';
+                            resultDisplayed = false;
+                        }
+                        currentInput += value;
+                        display.textContent = currentInput;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
