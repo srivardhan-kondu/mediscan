@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Scientific Calculator</title>
+</head>
+<body>
+    <div class="calculator" role="region" aria-label="Scientific calculator">
+        <input type="text" class="calculator-display" id="display" readonly aria-label="Calculator display">
+        <div class="calculator-buttons">
+            <button class="btn" onclick="handleClear()" aria-label="Clear">C</button>
+            <button class="btn" onclick="handleDelete()" aria-label="Delete">&#9003;</button>
+            <button class="btn" onclick="handleInput('%')" aria-label="Percentage">%</button>
+            <button class="btn operator" onclick="handleInput('/')" aria-label="Divide">&divide;</button>
+            <button class="btn" onclick="handleInput('7')" aria-label="Seven">7</button>
+            <button class="btn" onclick="handleInput('8')" aria-label="Eight">8</button>
+            <button class="btn" onclick="handleInput('9')" aria-label="Nine">9</button>
+            <button class="btn operator" onclick="handleInput('*')" aria-label="Multiply">&times;</button>
+            <button class="btn" onclick="handleInput('4')" aria-label="Four">4</button>
+            <button class="btn" onclick="handleInput('5')" aria-label="Five">5</button>
+            <button class="btn" onclick="handleInput('6')" aria-label="Six">6</button>
+            <button class="btn operator" onclick="handleInput('-')" aria-label="Subtract">&minus;</button>
+            <button class="btn" onclick="handleInput('1')" aria-label="One">1</button>
+            <button class="btn" onclick="handleInput('2')" aria-label="Two">2</button>
+            <button class="btn" onclick="handleInput('3')" aria-label="Three">3</button>
+            <button class="btn operator" onclick="handleInput('+')" aria-label="Add">&#43;</button>
+            <button class="btn" onclick="handleInput('0')" aria-label="Zero">0</button>
+            <button class="btn" onclick="handleInput('.')" aria-label="Decimal">.</button>
+            <button class="btn double-span" onclick="handleCalculate()" aria-label="Equals">=</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
