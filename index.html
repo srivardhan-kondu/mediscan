@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Scientific Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 90vw;
+        }
+
+        .screen {
+            display: block;
+            width: 100%;
+            height: 80px;
+            border: none;
+            background-color: #252525;
+            color: #00ff00;
+            font-size: 2em;
+            text-align: right;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 5px;
+            padding: 10px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #d4d4d4;
+        }
+
+        button:active {
+            background-color: #b0b0b0;
+        }
+
+        .operator {
+            background-color: #ffab00;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #ff9800;
+        }
+
+        .equals {
+            background-color: #4caf50;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background-color: #45a049;
+        }
+
+        .clear {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .clear:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="screen" readonly>
+        <div class="buttons">
+            <button class="clear">C</button>
+            <button class="operator">&plusmn;</button>
+            <button class="operator">&percnt;</button>
+            <button class="operator">&#247;</button>
+
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator">&#215;</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="operator">&#8722;</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="operator">&#43;</button>
+
+            <button>0</button>
+            <button>.</button>
+            <button class="equals">&#61;</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Updates the calculator screen with the given value.
+         * @param {string} value - The value to be displayed on the screen.
+         */
+        function updateScreen(value) {
+            screen.value = value;
+        }
+
+        /**
+         * Parses and evaluates the mathematical expression safely using Function.
+         * Prevents security risks associated with eval().
+         * @returns {number|string} - Result of evaluated expression or 'Error'.
+         */
+        function safeEvaluate(operation) {
+            try {
+                const result = Function('return ' + operation)();
+                return isNaN(result) ? 'Error' : result;
+            } catch (error) {
+                return 'Error';
+            }
+        }
+
+        // Initialize calculator elements
+        const screen = document.querySelector('.screen');
+        const buttons = document.querySelectorAll('button');
+        let operation = '';
+        let currentEntry = '';
+
+        // Add event listeners to each button
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const buttonText = button.innerText;
+
+                if (buttonText === 'C') {
+                    operation = '';
+                    currentEntry = '';
+                    updateScreen(operation);
+                } else if (buttonText === '=') {
+                    if (currentEntry || operation) {
+                        operation = safeEvaluate(operation);
+                        updateScreen(operation);
+                        currentEntry = operation;
+                    }
+                } else if (buttonText === '±') {
+                    if (currentEntry) {
+                        currentEntry = (-parseFloat(currentEntry)).toString();
+                        operation = currentEntry;
+                        updateScreen(operation);
+                    }
+                } else if (buttonText === '%') {
+                    if (currentEntry) {
+                        currentEntry = (parseFloat(currentEntry) / 100).toString();
+                        operation = currentEntry;
+                        updateScreen(operation);
+                    }
+                } else if (/[0-9.]/.test(buttonText)) {
+                    currentEntry += buttonText;
+                    operation += buttonText;
+                    updateScreen(operation);
+                } else { // Operator
+                    if (currentEntry && /[\d)\]]$/.test(operation)) {
+                        operation += buttonText;
+                        currentEntry = '';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
